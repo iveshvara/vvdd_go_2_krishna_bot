@@ -5,7 +5,7 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.utils import executor
 from aiogram import types
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, InputFile
-from settings import TOKEN, LOGS_CHANNEL_ID
+from settings import TOKEN, LOGS_CHANNEL_ID, THIS_IS_BOT_NAME
 import sqlite3
 
 
@@ -22,7 +22,8 @@ async def on_startup(_):
 
 
 async def on_shutdown(_):
-    await bot.send_message(text='shutdown', chat_id=LOGS_CHANNEL_ID)
+    text = f'@{THIS_IS_BOT_NAME} is shutdown'
+    await bot.send_message(text=text, chat_id=LOGS_CHANNEL_ID)
 
 
 async def update_message_id(id_user, message_id):
