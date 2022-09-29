@@ -19,6 +19,7 @@ cursor = connect.cursor()
 async def on_startup(_):
     connect.execute('CREATE TABLE IF NOT EXISTS counts(id_user INTEGER, count INTEGER, message_id INTEGER, in_circles BLOB)')
     connect.commit()
+    print('Ok')
 
 
 async def on_shutdown(_):
