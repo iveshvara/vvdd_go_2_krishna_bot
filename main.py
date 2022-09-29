@@ -5,7 +5,7 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.utils import executor
 from aiogram import types
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, InputFile
-from settings import TOKEN
+from settings import TOKEN, LOGS_CHANNEL_ID
 import sqlite3
 
 
@@ -19,6 +19,10 @@ cursor = connect.cursor()
 async def on_startup(_):
     connect.execute('CREATE TABLE IF NOT EXISTS counts(id_user INTEGER, count INTEGER, message_id INTEGER, in_circles BLOB)')
     connect.commit()
+
+
+async def on_shutdown(_):
+    await bot.send_message(text='shutdown', chat_id=LOGS_CHANNEL_ID)
 
 
 async def update_message_id(id_user, message_id):
@@ -124,4 +128,4 @@ async def confirm_delete_store(callback: types.CallbackQuery):
     await answer(callback, 0, False)
 
 
-executor.start_polling(dp, skip_updates=False, on_startup=on_startup)
+executor.start_polling(dp, skip_updates=False, on_startup=on_startup, on_shutdown=on_shutdown)
